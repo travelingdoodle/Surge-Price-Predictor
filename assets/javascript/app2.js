@@ -95,7 +95,7 @@ $(document).ready(function () {
     var tmRef = ref.child("ticketMaster");
     var tmEventRef = ref.child("ticketMaster").child("tmObject").child("page");
 
-    //  ----------  FUCKING WEATHER API BULLSHIT  ---------
+    //  ----------   WEATHER API   ---------
     function weather() {
 
         // weatherURL = "http://api.wunderground.com/api/050cc66bcd917a79/geolookup/hourly/q/autoip.json"; 
@@ -121,7 +121,7 @@ $(document).ready(function () {
     weather();
 
     function ticketMasterThings() {
-        //  --------- TICKETMASTER URL FUCKING-BULLSHIT  ----------
+        //  --------- TICKETMASTER URL-BUILDING || Moment.js  ----------
         var currentTime = moment();
         console.log(currentTime);
         currentTimeFormatted = moment(currentTime).format("YYYY-MM-DD HH:mm");
@@ -135,7 +135,7 @@ $(document).ready(function () {
         var tmURL = urlCurrentDate + "T" + urlCurrentTime + "Z&endDateTime=" + urlCurrentDate + "T" + urlEndTime;
         console.log(tmURL);
 
-        //  ----------  TICKET MASTER FUCKING BULLSHIT  ----------
+        //  ----------  TICKET MASTER API  ----------
         $.ajax({
             type: "GET",
             //--ORIGINAL--

@@ -17,7 +17,7 @@ var tmRef = ref.child("ticketMaster");
 var tmEventRef = ref.child("ticketMaster").child("tmObject").child("page");
 
 
-//  ----------  FUCKING WEATHER API BULLSHIT  ---------
+//  ----------  WUNDERGROUND API  ---------
 function weather() {
 
     // weatherURL = "http://api.wunderground.com/api/050cc66bcd917a79/geolookup/hourly/q/autoip.json"; 
@@ -27,12 +27,12 @@ function weather() {
     }).done(function (response) {
         // console.log(response);
         // console.log(response.hourly_forecast[0].pop);
-        
-           
-            $("#pop0").append(response.hourly_forecast[0].pop + "%" + ".");
-            $("#pop1").append(response.hourly_forecast[1].pop + "%" + ".");
-            $("#pop2").append(response.hourly_forecast[2].pop + "%" + ".");
-        
+
+
+        $("#pop0").append(response.hourly_forecast[0].pop + "%" + ".");
+        $("#pop1").append(response.hourly_forecast[1].pop + "%" + ".");
+        $("#pop2").append(response.hourly_forecast[2].pop + "%" + ".");
+
         var rainRef = ref.child("rain");
         rainRef.update({
             hour1: response.hourly_forecast[0].pop,
@@ -40,11 +40,8 @@ function weather() {
             hour3: response.hourly_forecast[2].pop
         });
 
-        
-        //var ctx = document.getElementById("satMap").getContext("2d");
         //puts a sat image map in the canvas
         var weatherGif = response.satellite.image_url_vis;
-        //satMap.html('<img src="' + weatherGif + '">');
         // console.log(weatherGif);
 
         $("#satMap").html('<img src="' + weatherGif + '">');
@@ -54,7 +51,7 @@ function weather() {
 weather();
 
 function ticketMasterThings() {
-    //  --------- TICKETMASTER URL FUCKING-BULLSHIT  ----------
+    //  --------- MOMENT.JS VARIABLES TO USE WITH TICKETMASTER API  ----------
     var currentTime = moment();
     // console.log(currentTime);
     currentTimeFormatted = moment(currentTime).format("YYYY-MM-DD HH:mm");
@@ -68,7 +65,7 @@ function ticketMasterThings() {
     var tmURL = urlCurrentDate + "T" + urlCurrentTime + "Z&endDateTime=" + urlCurrentDate + "T" + urlEndTime;
     // console.log(tmURL);
 
-    //  ----------  TICKET MASTER FUCKING BULLSHIT  ----------
+    //  ----------  TICKET MASTER  ----------
     $.ajax({
         type: "GET",
 
@@ -78,7 +75,6 @@ function ticketMasterThings() {
         async: true,
         dataType: "json",
         success: function (json) {
-            // console.log(json);
             // Parse the response.
             // Do other things.
 
@@ -103,7 +99,7 @@ function ticketMasterThings() {
 };
 ticketMasterThings();
 
-// ---------- BEGIN LOGIC FOR FUCKING BULLSHIT ----------
+// ---------- BEGIN LOGIC FOR CALCULATING CHANCE OF SURGE PRICING ----------
 function state() {
     var POP = 0;
     var POP1 = 0;
@@ -124,7 +120,7 @@ function state() {
         POP2 = currentPOP.hour3;
         // console.log("state function var POP-3 value: " + POP2);
 
-        // sets var for an event ending this hour
+        // sets variables for an events ending this hour
         tmEventRef.on("value", function (snapshot) {
             var wholeObj = snapshot.val();
             // console.log("wholeObj " + wholeObj.number);
@@ -150,41 +146,8 @@ function state() {
             // 5 = 80%
             // 4 = 75%
             // 3 = 50%
-            // if (eventTrue === true) {
-            //     POP >= 85 ? state == 99: eventTrue === true,
-            //     POP1 >= 85 ? state1 == 99: eventTrue === true,
-            //     POP2 >= 85 ? state2 == 99: eventTrue === true,
-            //     POP >= 75 ? state == 99: eventTrue === true,
-            //     POP1 >= 75 ? state1 == 99: eventTrue === true,
-            //     POP2 >= 75 ? state2 == 99: eventTrue === true,
-            //     POP >= 50 ? state == 99: eventTrue === true,
-            //     POP1 >= 50 ? state1 == 99: eventTrue === true,
-            //     POP2 >= 50 ? state2 == 99: eventTrue === true
-            // }
-            // else if (eventTrue != true) {
-            //     POP >= 85 ? state == 75: eventTrue != true,
-            //     POP1 >= 85 ? state1 == 75: eventTrue != true,
-            //     POP2 >= 85 ? state2 == 75: eventTrue != true,
-            //     POP >= 75 ? state == 70: eventTrue != true,
-            //     POP1 >= 75 ? state1 == 70: eventTrue != true,
-            //     POP2 >= 75 ? state2 == 70: eventTrue != true,
-            //     POP >= 50 ? state == 50: eventTrue != true,
-            //     POP1 >= 50 ? state1 == 50: eventTrue != true,
-            //     POP2 >= 50 ? state2 == 50: eventTrue != true,
-            //     POP >= 25 ? state == 25: eventTrue != true,
-            //     POP1 >= 25 ? state1 == 25: eventTrue != true,
-            //     POP2 >= 25 ? state2 == 25: eventTrue != true,
-            //     POP >= 10 ? state == 10: eventTrue != true,
-            //     POP1 >= 10 ? state1 == 10: eventTrue != true,
-            //     POP2 >= 10 ? state2 == 10: eventTrue != true
-            // }
-            // else if (POP || POP1 || POP2 < 10 && POP || POP1 || POP2 !=0 ) {
-            //         state, state1, state2 = 5;
-            // }
 
-
-
-
+// logic to calculate chance (percentage) of surge pricing (by setting state for chart.js)
             if (POP >= 85 && eventTrue === true) {
                 state = 99;
                 if (POP1 >= 85 && eventTrue === true) {
@@ -282,6 +245,4 @@ function state() {
 
 };
 state();
-// // end of doc ready
-// });
-
+// end of doc ready
