@@ -4,11 +4,8 @@ function makeChart() {
 
     // Create new instance of a chart
     var myChart = new Chart(ctx, {
-
         //Define chart type
         type: 'bar',
-
-
         data: {
 
             // x-axis labels
@@ -62,10 +59,6 @@ function makeChart() {
         }
     });
 
-
-
-
-
     var bars = myChart.data.datasets[0];
 
     function getState() {
@@ -108,7 +101,5 @@ function makeChart() {
         })
     };
     getState();
-
-
 };
 makeChart();

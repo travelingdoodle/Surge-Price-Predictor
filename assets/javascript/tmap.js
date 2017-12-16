@@ -25,7 +25,6 @@ var map, infoWindow;
             transitLayer.setMap(null);
             bikeLayer.setMap(map);
           });
-  
 
         // Try HTML5 geolocation.
         if (navigator.geolocation) {

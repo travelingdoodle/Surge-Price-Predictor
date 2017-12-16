@@ -78,7 +78,7 @@ function ticketMasterThings() {
             // Parse the response.
             // Do other things.
 
-            // This is accessing the child 'tickMaster'
+            // This is accessing the child 'ticetkMaster'
             var tmRef = ref.child("ticketMaster");
             // updates fb with the object
             tmRef.update({
@@ -157,7 +157,7 @@ function state() {
                     state2 = 99;
                 }
             }
-            else if (POP >= 75 & POP < 85 && eventTrue === true) {
+            else if (POP >= 75 && POP < 85 && eventTrue === true) {
                 state = 90;
                 if (POP1 >= 75 && eventTrue === true) {
                     state1 = 90;
@@ -166,7 +166,7 @@ function state() {
                     state2 = 90;
                 }
             }
-            else if (POP >= 50 & POP < 75 && eventTrue === true) {
+            else if (POP >= 50 && POP < 75 && eventTrue === true) {
                 state = 85;
                 if (POP1 >= 50 && eventTrue === true) {
                     state1 = 85;
@@ -211,12 +211,12 @@ function state() {
                     state2 = 10;
                 }
             }
-            else if (POP < 10 & POP != 0) {
+            else if (POP < 10 && POP != 0) {
                 state = 5;
-                if (POP1 < 10 & POP1 != 0) {
+                if (POP1 < 10 && POP1 != 0) {
                     state1 = 5;
                 }
-                if (POP2 < 10 & POP2 != 0) {
+                if (POP2 < 10 && POP2 != 0) {
                     state2 = 5;
                 }
             }
@@ -237,12 +237,8 @@ function state() {
                 state1: state1,
                 state2: state2
             });
-
         });
-
-
     });
-
 };
-state();
 // end of doc ready
+state();
