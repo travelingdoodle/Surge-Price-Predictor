@@ -71,19 +71,12 @@ function makeChart() {
         fireState.on("value", function (snapshot) {
 
             currentState = snapshot.val();
-            console.log("chart.js current state: " + currentState.state);
             chartState = currentState.state;
-            console.log("var chartState1 / passed into object: " + chartState);
             chartState1 = currentState.state1;
-            console.log("var chartState2 / passed into object: " + chartState1);
             chartState2 = currentState.state2;
-            console.log("var chartState3 / passed into object: " + chartState2);
             bars.data[0] = parseInt(currentState.state);
-            console.log("bars.data[0] " + bars.data[0]);
             bars.data[1] = chartState1;
-            console.log("bars.data[1] " + bars.data[1]);
             bars.data[2] = chartState2;
-            console.log("bars.data[2] " + bars.data[2]);
             myChart.update();
             // Change color of data based on data value
             for (i = 0; i < bars.data.length; i++) {

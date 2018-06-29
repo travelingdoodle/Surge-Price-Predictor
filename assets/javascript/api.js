@@ -25,10 +25,6 @@ function weather() {
         url: "https://api.wunderground.com/api/050cc66bcd917a79/satellite/geolookup/hourly/q/autoip.json",
         method: "GET"
     }).done(function (response) {
-        // console.log(response);
-        // console.log(response.hourly_forecast[0].pop);
-
-
         $("#pop0").append(response.hourly_forecast[0].pop + "%" + ".");
         $("#pop1").append(response.hourly_forecast[1].pop + "%" + ".");
         $("#pop2").append(response.hourly_forecast[2].pop + "%" + ".");
@@ -42,8 +38,6 @@ function weather() {
 
         //puts a sat image map in the canvas
         var weatherGif = response.satellite.image_url_vis;
-        // console.log(weatherGif);
-
         $("#satMap").html('<img src="' + weatherGif + '">');
 
     })
@@ -53,17 +47,11 @@ weather();
 function ticketMasterThings() {
     //  --------- MOMENT.JS VARIABLES TO USE WITH TICKETMASTER API  ----------
     var currentTime = moment();
-    // console.log(currentTime);
     currentTimeFormatted = moment(currentTime).format("YYYY-MM-DD HH:mm");
-    // console.log(currentTimeFormatted);
     var urlCurrentDate = moment(currentTimeFormatted).format("YYYY-MM-DD");
-    // console.log(urlCurrentDate);
     var urlCurrentTime = moment(currentTimeFormatted).format("HH:mm:ss");
-    // console.log(urlCurrentTime);
     var urlEndTime = currentTime.add(moment.duration(3, 'hours')).format("HH:mm:ss");
-    // console.log(urlEndTime);
     var tmURL = urlCurrentDate + "T" + urlCurrentTime + "Z&endDateTime=" + urlCurrentDate + "T" + urlEndTime;
-    // console.log(tmURL);
 
     //  ----------  TICKET MASTER  ----------
     $.ajax({
@@ -87,7 +75,6 @@ function ticketMasterThings() {
 
             // This will reference the firebase and print the info to the console & HTML       
             tmRef.orderByChild("tmObject").on("child_added", function (snapshot) {
-                // console.log(snapshot.key + " has " + snapshot.val().page.number + " events");
                 $("#numOfEvents").append("There are " + snapshot.val().page.number + " events during the next three hours");
             });
         },
@@ -112,20 +99,14 @@ function state() {
     popRef.on("value", function (snapshot) {
 
         currentPOP = snapshot.val();
-        // console.log("state function current pop: " + currentPOP.hour1);
         POP = currentPOP.hour1;
-        // console.log("state function var POP-1 value: " + POP);
         POP1 = currentPOP.hour2;
-        // console.log("state function var POP-2 value: " + POP1);
         POP2 = currentPOP.hour3;
-        // console.log("state function var POP-3 value: " + POP2);
 
         // sets variables for an events ending this hour
         tmEventRef.on("value", function (snapshot) {
             var wholeObj = snapshot.val();
-            // console.log("wholeObj " + wholeObj.number);
             var evntNow = wholeObj.number;
-            // console.log("number of events evntNow " + evntNow);
 
             //setting evntNow to boolean 
             if (evntNow > 0) {
@@ -147,7 +128,7 @@ function state() {
             // 4 = 75%
             // 3 = 50%
 
-// logic to calculate chance (percentage) of surge pricing (by setting state for chart.js)
+            // logic to calculate chance (percentage) of surge pricing (by setting state for chart.js)
             if (POP >= 85 && eventTrue === true) {
                 state = 99;
                 if (POP1 >= 85 && eventTrue === true) {
@@ -225,12 +206,6 @@ function state() {
                 state1 = 0;
                 state2 = 0;
             }
-            // console.log("end of logic pop-1 value: " + POP);
-            // console.log("end of logic pop-2 value: " + POP1);
-            // console.log("end of logic pop-2 value: " + POP2);
-            // console.log("end of logic state value: " + state);
-            // console.log("end of logic state1 value: " + state1);
-            // console.log("end of logic state2 value: " + state2);
             var fireState = ref.child("state");
             fireState.update({
                 state: state,
@@ -239,6 +214,6 @@ function state() {
             });
         });
     });
-};
-// end of doc ready
+};// end of doc ready
+
 state();
